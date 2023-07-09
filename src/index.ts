@@ -17,14 +17,7 @@ const startServer = async () => {
     server.get('/', (request, reply) => {
       reply.send({ name: 'CHERRY SERVER' });
     });
-    server.get('/health-check', async (request, reply) => {
-      try {
-        await utils.healthCheck();
-        reply.status(200).send();
-      } catch (e) {
-        reply.status(500).send();
-      }
-    });
+      
     server.register(userRouter, { prefix: '/api/user' })
 
     if (config.NODE_ENV === 'production') {

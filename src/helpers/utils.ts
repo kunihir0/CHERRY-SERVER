@@ -36,17 +36,4 @@ export const utils = {
       })
     })
   },
-  healthCheck: (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    prisma
-      .$connect()
-      .then(() => {
-        resolve();
-      })
-      .catch((e) => {
-        reject(e);
-      });
-  });
-};
-
 }
