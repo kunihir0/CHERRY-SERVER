@@ -42,3 +42,5 @@ process.on('unhandledRejection', (e) => {
 });
 
 startServer();
+
+export default startServer;
