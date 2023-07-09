@@ -4,7 +4,7 @@ import * as controllers from '../controllers';
 import { prisma } from '../helpers/utils';
 
 interface RouteParams {
-  id: string;
+  email: string;
 }
 
 async function userRouter(fastify: FastifyInstance) {
@@ -32,10 +32,10 @@ async function userRouter(fastify: FastifyInstance) {
 
   fastify.route<{ Params: RouteParams }>({
     method: 'GET',
-    url: '/:id',
+    url: '/:email',
     handler: async (request, reply) => {
-      const { id } = request.params;
-      const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+      const { email } = request.params;
+      const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
         reply.code(404).send({ message: 'User not found' });
         return;
