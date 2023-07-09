@@ -37,15 +37,16 @@ export const utils = {
     })
   },
   healthCheck: (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      prisma
-        .$queryRaw`SELECT 1`
-        .then(() => {
-          resolve()
-        })
-        .catch((e) => {
-          reject(e)
-        })
-    })
-  }
+  return new Promise((resolve, reject) => {
+    prisma
+      .$connect()
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+};
+
 }
