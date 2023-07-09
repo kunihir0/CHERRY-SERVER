@@ -28,8 +28,10 @@ export const utils = {
   },
   compareHash: (hash, value) => {
     return new Promise((resolve, reject) => {
+      console.log('comparing password:', value, 'with hash:', hash);
       bcrypt.compare(value, hash, (err, result): boolean | any => {
         if (err) reject(err)
+        console.log('compare result:', result);
         resolve(result)
       })
     })

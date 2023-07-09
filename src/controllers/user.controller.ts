@@ -18,7 +18,8 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
       return;
     }
     console.log('checking password')
-    const checkPass = await utils.compareHash(password, user.password);
+    const checkPass = await utils.compareHash(user.password, password);
+    
     if (!checkPass) {
       console.log('password incorrect')
       reply.code(ERROR400.statusCode).send(ERRORS.userCredError);
@@ -40,6 +41,28 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
   } catch (err) {
     console.log('error occurred', err)
     handleServerError(reply, err);
+  }
+};
+
+export const getAllUsers = async (request: IUserRequest, reply: FastifyReply) => {
+  console.log('getAllUsers function called')
+  try {
+    const users = await prisma.user.findMany();
+    reply.code(STANDARD.SUCCESS).send(users);
+  } catch (err) {
+    console.log('error occurred', err)
+    handleServerError(reply, err);
+    }
+};
+
+export const authenticate = async (request, reply, done) => {
+  try {
+    const token = request.headers.authorization.split(' ')[1];
+    const decoded = JWT.verify(token, process.env.APP_JWT_SECRET);
+    request.authUser = decoded;
+    done();
+  } catch (err) {
+    reply.code(401).send({ message: 'Unauthorized' });
   }
 };
 
