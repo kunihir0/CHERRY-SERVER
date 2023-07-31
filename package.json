@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node build/index.js | pino-pretty --colorize",
     "dev": "ts-node-dev ./src/index.ts | pino-pretty --colorize",
-    "postinstall": "npx typesync && husky install",
+    "postinstall": "typesync && husky install",
     "prisma": "dotenv -e .env prisma",
     "db:gen": "pnpm run prisma generate",
     "db:studio": "pnpm run prisma studio",
@@ -32,6 +32,9 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/eslint": "^8.44.1",
+    "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.44.0",
