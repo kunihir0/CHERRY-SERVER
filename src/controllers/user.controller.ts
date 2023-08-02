@@ -3,7 +3,7 @@ import { IUserRequest } from '../interfaces';
 import { prisma } from '../helpers/utils';
 import { ERRORS, handleServerError } from '../helpers/errors';
 import * as JWT from 'jsonwebtoken';
-import { utils } from '../helpers/utils';
+import { Utils } from '../helpers/utils';
 import { ERROR500, ERROR400, STANDARD } from '../helpers/constants';
 
 export const login = async (request: IUserRequest, reply: FastifyReply) => {
@@ -18,7 +18,7 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
       return;
     }
     console.log('checking password')
-    const checkPass = await utils.compareHash(user.password, password);
+    const checkPass = await Utils.compareHash(user.password, password);
     
     if (!checkPass) {
       console.log('password incorrect')
@@ -78,7 +78,7 @@ export const signUp = async (request: IUserRequest, reply: FastifyReply) => {
       return;
     }
     console.log('hashing password')
-    const hashPass = await utils.genSalt(10, password);
+    const hashPass = await Utils.genSalt(10, password);
     console.log('creating user')
     const createUser = await prisma.user.create({
       data: {

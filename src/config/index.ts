@@ -22,19 +22,28 @@ const configSchema: JSONSchemaType<Config> = {
   },
 };
 
-export default function loadConfig(): Config {
-  const result = require('dotenv').config({
-    path: path.join(__dirname, '..', '..', '.env'),
-  });
+class ConfigLoader {
+  private config: Config;
 
-  if (result.error) {
-    throw new Error(result.error);
+  constructor() {
+    const result = require('dotenv').config({
+      path: path.join(__dirname, '..', '..', '.env'),
+    });
+
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    this.config = envSchema<Config>({
+      data: result.parsed,
+      schema: configSchema,
+    });
   }
 
-  const config = envSchema<Config>({
-    data: result.parsed,
-    schema: configSchema,
-  });
-
-  return config;
+  public getConfig(): Config {
+    return this.config;
+  }
 }
+
+const configLoader = new ConfigLoader();
+export default configLoader.getConfig.bind(configLoader);
