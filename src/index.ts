@@ -35,7 +35,9 @@ export class Server {
           );
         }
       }
-      await this.server.listen(config.API_PORT);
+
+      await this.server.listen({ port: config.API_PORT });
+
     } catch (e) {
       console.error(e);
     }

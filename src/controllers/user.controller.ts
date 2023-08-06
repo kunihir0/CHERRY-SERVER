@@ -5,6 +5,10 @@ import { ERRORS, handleServerError } from '../helpers/errors';
 import * as JWT from 'jsonwebtoken';
 import { Utils } from '../helpers/utils';
 import { ERROR500, ERROR400, STANDARD } from '../helpers/constants';
+import configLoader from '../config';
+
+const APP_JWT_SECRET = configLoader().APP_JWT_SECRET;
+
 
 export const login = async (request: IUserRequest, reply: FastifyReply) => {
   console.log('login function called')
@@ -31,7 +35,7 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
         id: user.id,
         email: user.email,
       },
-      process.env.APP_JWT_SECRET,
+      APP_JWT_SECRET,
     );
     console.log('sending response')
     reply.code(STANDARD.SUCCESS).send({
@@ -58,7 +62,7 @@ export const getAllUsers = async (request: IUserRequest, reply: FastifyReply) =>
 export const authenticate = async (request, reply, done) => {
   try {
     const token = request.headers.authorization.split(' ')[1];
-    const decoded = JWT.verify(token, process.env.APP_JWT_SECRET);
+    const decoded = JWT.verify(token, APP_JWT_SECRET);
     request.authUser = decoded;
     done();
   } catch (err) {
@@ -94,7 +98,7 @@ export const signUp = async (request: IUserRequest, reply: FastifyReply) => {
         id: createUser.id,
         email: createUser.email,
       },
-      process.env.APP_JWT_SECRET,
+      APP_JWT_SECRET,
     );
     delete (createUser as any).password;
     console.log('sending response')

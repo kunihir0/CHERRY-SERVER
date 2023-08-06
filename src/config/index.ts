@@ -5,12 +5,12 @@ interface Config {
   NODE_ENV: 'development' | 'testing' | 'production';
   API_HOST: string;
   API_PORT: string;
-  DATABASE_URL: string;
+  DATABASE_URL_MONGOD: string;
 }
 
 const configSchema: JSONSchemaType<Config> = {
   type: 'object',
-  required: ['NODE_ENV', 'API_HOST', 'API_PORT', 'DATABASE_URL'],
+  required: ['NODE_ENV', 'API_HOST', 'API_PORT', 'DATABASE_URL_MONGOD'],
   properties: {
     NODE_ENV: {
       type: 'string',
@@ -18,7 +18,7 @@ const configSchema: JSONSchemaType<Config> = {
     },
     API_HOST: { type: 'string' },
     API_PORT: { type: 'string' },
-    DATABASE_URL: { type: 'string' },
+    DATABASE_URL_MONGOD: { type: 'string' },
   },
 };
 
